@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueApollo from 'vue-apollo'
+// import VueRouter from 'vue-router'
 import './index.css'
 
 import { ApolloClient } from 'apollo-client'
@@ -17,17 +18,22 @@ const httpLink = createHttpLink({
 
 const cache = new InMemoryCache()
 
+// Client create
 const apolloClient = new ApolloClient({
     link: httpLink,
     cache
 })
 
+// Plugin usage
 Vue.use(VueApollo)
+// Vue.use(VueRouter)
 
+// Provider instantiate
 const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
 })
 
+// Vue App
 new Vue({
   render: (h) => h(App),
   apolloProvider
