@@ -1,12 +1,12 @@
 import Vue from 'vue'
-import App from './App.vue'
 import VueApollo from 'vue-apollo'
-// import VueRouter from 'vue-router'
 import './index.css'
 
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
+import PagePendaftaranProgram from './pages/PendaftaranProgram.vue'
+import PageError from './pages/404.vue'
 
 const httpLink = createHttpLink({
     uri: 'https://belchertown.stepzen.net/smarterunner-gsheets/kertaskerja/__graphql',
@@ -26,16 +26,25 @@ const apolloClient = new ApolloClient({
 
 // Plugin usage
 Vue.use(VueApollo)
-// Vue.use(VueRouter)
 
 // Provider instantiate
 const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
 })
 
+// Router settings
+const routes = {
+  '/kertaskerja': PagePendaftaranProgram
+}
+
 // Vue App
-new Vue({
-  render: (h) => h(App),
-  apolloProvider
+const app = new Vue({
+  el: '#app',
+  render (h) { return h(this.ViewComponent) },
+  computed: {
+    ViewComponent () {
+      return routes[window.location.pathname] || PageError
+    }
+  },
+  apolloProvider,
 })
-.$mount('#app')

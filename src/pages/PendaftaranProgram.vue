@@ -1,28 +1,25 @@
 <template>
     <div>
-
-        <div class="overflow-x-auto flex flex-col">
-            <div class="flex">
-                <div class="form-control w-full">
-                    <div class="input-group">
-                        <input v-model="searchString" type="text" placeholder="Isi carian tajuk kertas kerja" class="input input-bordered !rounded-r-none w-full">
-                    </div>
-                </div>
-                <div class="btn-group flex-none">
-                    <button type="button" class="btn !rounded-none" @click="pageDecrement()">
+        <div class="overflow-x-auto flex flex-col p-4">
+            <div class="flex gap-4 mb-4">
+                <input v-model="searchString" type="text" placeholder="Isi carian tajuk kertas kerja" class="input input-bordered w-full">
+                <!-- <div class="btn-group flex-none"> -->
+                    <button type="button" class="btn btn-ghost" @click="pageDecrement()">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
                         </svg>
                     </button>
-                    <div class="flex items-center uppercase text-sm text-gray-500">
-                        <span class="px-4">Halaman {{ currentPage }} dari {{ totalPage }}</span>
+                    <div class="flex items-center uppercase whitespace-nowrap">
+                        Halaman&nbsp;&nbsp;
+                        <input type="text" v-model="currentPage" class="input input-sm input-bordered w-10 text-center">
+                        &nbsp;&nbsp;dari {{ totalPage }}
                     </div>
-                    <button type="button" class="btn !rounded-none" @click="pageIncrement()">
+                    <button type="button" class="btn btn-ghost" @click="pageIncrement()">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                         </svg>
                     </button>
-                </div>
+                <!-- </div> -->
             </div>
             <!-- <div v-if="$apollo.loading" class="bg-white p-4 ring-1 ring-slate-900/5 rounded-lg shadow-lg max-w-xs w-full h-28">
                 <div class="flex space-x-4 animate-pulse">
@@ -139,6 +136,13 @@ export default {
                 this.currentPage = this.totalPage
             }
         },
+    },
+    watch: {
+        currentPage: function(val, oldVal) {
+            if (val >= this.totalPage) {
+                this.currentPage = this.totalPage
+            }
+        }
     },
     apollo: {
         totalPage: {
