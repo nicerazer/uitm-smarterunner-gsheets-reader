@@ -34,7 +34,7 @@ const apolloProvider = new VueApollo({
 
 // Router settings
 const routes = {
-  '/kertaskerja': PagePendaftaranProgram
+  'pendaftaran-program': PagePendaftaranProgram
 }
 
 // Vue App
@@ -43,7 +43,10 @@ const app = new Vue({
   render (h) { return h(this.ViewComponent) },
   computed: {
     ViewComponent () {
-      return routes[window.location.pathname] || PageError
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      return routes[params.page] || PageError
     }
   },
   apolloProvider,
